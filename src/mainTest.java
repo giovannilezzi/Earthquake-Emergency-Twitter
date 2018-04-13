@@ -6,7 +6,7 @@ import Util.TweetFinder;
 import java.sql.Connection;
 import java.util.ArrayList;
 
-public class RicercaTweet {
+public class mainTest {
 
     public static void main(String [ ] args){
         initTweetTable();
