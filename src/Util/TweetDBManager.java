@@ -1,6 +1,12 @@
 package Util;
 
+import Model.Tweet;
+import org.postgresql.ds.common.PGObjectFactory;
+import org.postgresql.util.PGobject;
+
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TweetDBManager {
     public final static String POSTGRESQL_DRIVER = "jdbc:postgresql://";
@@ -50,10 +56,7 @@ public class TweetDBManager {
     public static boolean createTableDefault(Connection connection, String nameTable){
         Statement statement = null;
 
-        String query = "create table " + nameTable + " (" +
-                "id serial not null," +
-                "primary key (id)" +
-                ");";
+        String query = PostgreSqlQuery.createTableDefault(nameTable);
 
         try {
             statement = connection.createStatement();
@@ -70,6 +73,88 @@ public class TweetDBManager {
         }
 
         return  true;
+    }
+
+    public static boolean createTableDefaultWithJson(Connection connection, String nameTable){
+        Statement statement = null;
+
+        String query = PostgreSqlQuery.createTableDefaultWithJson(nameTable);
+
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        try {
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return  true;
+    }
+
+    public static boolean insertJson(Connection connection, String nameTable, ArrayList<String> jsonToInsert){
+        PreparedStatement preparedStatement = null;
+
+        String query = PostgreSqlQuery.insertJson(nameTable);
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+
+            int i = 1;
+            for (String oneJson : jsonToInsert){
+                PGobject jsonObject = new PGobject();
+                jsonObject.setType("json");
+                try {
+                    jsonObject.setValue(oneJson);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                preparedStatement.setObject(1, i);
+                preparedStatement.setObject(2, jsonObject);
+                preparedStatement.executeUpdate();
+
+                i++;
+            }
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
+        return false;
+    }
+
+    public static ArrayList<Tweet> viewTableTweets(Connection connection, String nameTable){
+        Statement statement = null;
+
+        String query  = PostgreSqlQuery.viewTable(nameTable);
+
+        try {
+            statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        try {
+            ArrayList<Tweet> tweets = new ArrayList<>();
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()){
+                Tweet oneTweet = new Tweet(resultSet.getString(Tweet.JSON_COLUMN_NAME));
+                tweets.add(oneTweet);
+            }
+            return tweets;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static boolean closeConnection(Connection connection){

@@ -4,9 +4,9 @@ import twitter4j.Query;
 
 import java.util.ArrayList;
 
-public class QueryCriteria {
+public class TwitterQuery {
 
-    public static Query queryA(int giornoInizio, int meseInzio, int annoInizio, int giornoFine,
+    public static Query queryIntervalloTemporaleConParoleChiavi(int giornoInizio, int meseInzio, int annoInizio, int giornoFine,
                                int meseFine, int annoFine, ArrayList<String> hashTag ){
         String queryString = null;
         for (int i = 0; i < hashTag.size(); i++){
