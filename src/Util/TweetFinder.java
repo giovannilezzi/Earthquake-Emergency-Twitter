@@ -1,3 +1,6 @@
+package Util;
+
+import Model.Tweet;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.json.DataObjectFactory;
@@ -19,12 +22,14 @@ public class TweetFinder {
                 .setOAuthAccessToken(accessToken)
                 .setOAuthAccessTokenSecret(accessTokenSecret);
         configurationBuilder.setJSONStoreEnabled(true);
+
         return configurationBuilder;
     }
 
     public static ArrayList<Tweet> getArrayAsJson(Query query){
         TwitterFactory twitterFactory = new TwitterFactory(getConfigurationBuilder().build());
         Twitter twitter = twitterFactory.getInstance();
+
         QueryResult queryResult = null;
         ArrayList<Tweet> tweetresult = new ArrayList<>();
         try {
@@ -32,14 +37,15 @@ public class TweetFinder {
         } catch (TwitterException e) {
             e.printStackTrace();
         }
-        if(queryResult != null) {
 
+        if(queryResult != null) {
             for (Status status : queryResult.getTweets()) {
                 String json = DataObjectFactory.getRawJSON(status);
                 Tweet tweet = new Tweet(json);
                 tweetresult.add(tweet);
             }
-        }else System.out.println("tweet nullo");
+        }else System.out.println("La Ricerca non ha trovato alcun Tweet!");
+
         return tweetresult;
     }
 }

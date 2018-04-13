@@ -1,3 +1,5 @@
+package Util;
+
 import twitter4j.Query;
 
 import java.util.ArrayList;

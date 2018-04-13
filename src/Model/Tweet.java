@@ -1,3 +1,5 @@
+package Model;
+
 public class Tweet {
 
     private String tweetAsJson;
