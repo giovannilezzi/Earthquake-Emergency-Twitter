@@ -4,7 +4,6 @@ import Model.Tweet;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.json.DataObjectFactory;
-
 import java.util.ArrayList;
 
 public class TweetFinder {
@@ -40,6 +39,7 @@ public class TweetFinder {
 
         if(queryResult != null) {
             for (Status status : queryResult.getTweets()) {
+                System.out.println("Coordianta: " + status.getGeoLocation());
                 String json = DataObjectFactory.getRawJSON(status);
                 Tweet tweet = new Tweet(json);
                 tweetresult.add(tweet);

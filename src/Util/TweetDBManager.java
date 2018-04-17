@@ -1,10 +1,7 @@
 package Util;
 
 import Model.Tweet;
-import org.postgresql.ds.common.PGObjectFactory;
 import org.postgresql.util.PGobject;
-
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.util.ArrayList;
 
