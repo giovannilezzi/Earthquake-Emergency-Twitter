@@ -33,9 +33,9 @@ public class PostgreSqlQuery {
         return query;
     }
 
-    public static String deleteTable(String nomeTabella){
-        String query = "Drop Table " + nomeTabella;
-        System.out.println("Cancella:" + query);
+    public static String deleteTable(String nameTable){
+        String query = "Drop Table " + nameTable;
+
         return query;
     }
 }

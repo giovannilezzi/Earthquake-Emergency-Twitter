@@ -9,8 +9,8 @@ public class TweetDBManager {
     public final static String POSTGRESQL_DRIVER = "jdbc:postgresql://";
 
     public static Connection getConnectionDB(String serverDriver, String urlServerPostgreSql, String dbName, String user, String password){
-        System.out.println("-------- PostgreSQL "
-                + "JDBC Connection Testing ------------");
+        System.out.println("------------ PostgreSQL "
+                + "JDBC Connection Testing ------------\n");
 
         try {
 
@@ -19,13 +19,13 @@ public class TweetDBManager {
         } catch (ClassNotFoundException e) {
 
             System.out.println("Where is your PostgreSQL JDBC Driver? "
-                    + "Include in your library path!");
+                    + "Include in your library path!\n");
             e.printStackTrace();
             return null;
 
         }
 
-        System.out.println("PostgreSQL JDBC Driver Registered!");
+        System.out.println("PostgreSQL JDBC Driver Registered!\n");
 
         Connection connection = null;
 
@@ -35,16 +35,16 @@ public class TweetDBManager {
 
         } catch (SQLException e) {
 
-            System.out.println("Connection Failed! Check output console");
+            System.out.println("Connection Failed! Check output console\n");
             e.printStackTrace();
             return null;
 
         }
 
         if (connection != null) {
-            System.out.println("You made it, take control your database now!");
+            System.out.println("You made it, take control your database now!\n");
         } else {
-            System.out.println("Failed to make connection!");
+            System.out.println("Failed to make connection!\n");
         }
 
         return connection;
@@ -80,6 +80,7 @@ public class TweetDBManager {
             ResultSet table = databaseMetaDat.getTables(null, null, nameTable, null);
             String query = null;
             if (table.next() == true) {
+                System.out.println("Tabella " + nameTable + " già presente. Verrà eliminata\n");
                 query = PostgreSqlQuery.deleteTable(nameTable);
                 statement = connection.createStatement();
                 statement.executeUpdate(query);

@@ -5,6 +5,7 @@ import Util.TweetFinder;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class mainTest {
     private static String urlServerPostgreSql = "127.0.0.1:5432";
@@ -13,9 +14,9 @@ public class mainTest {
     private static String password = "postgres";
 
     public static void main(String [ ] args){
-        //initTweetTable();
+        initTweetTable();
         populateTweets();
-        viewTableTweet();
+        //viewTableTweet();
     }
 
     private static void initTweetTable(){
@@ -27,31 +28,36 @@ public class mainTest {
     }
 
     private static void populateTweets(){
-        ArrayList<String> Tag = new ArrayList<>();
-        /*
-        Tag.add("distruption");
-        Tag.add("Powerful");
-        Tag.add("strong");
-        Tag.add("big");
-        Tag.add("Felt");
-        Tag.add("Evacuation");
-        Tag.add("break");
-        Tag.add("Landslides");
-        Tag.add("Fear");
+        String keyword = "";
+        //String keyword = "earthquake";
+
+        ArrayList<String> tag = new ArrayList<>();
+        tag.add("earthquake");
+        tag.add("distruption");
+        tag.add("Powerful");
+        tag.add("strong");
+        tag.add("big");
+        tag.add("Felt");
+        tag.add("Evacuation");
+        tag.add("break");
+        tag.add("Landslides");
+        tag.add("Fear");
 
         ArrayList<String> frasi = new ArrayList<>();
-        frasi.add("major damages");
+        frasi.add("Major Damages");
         frasi.add("Felt enough");
         frasi.add("felt strongly");
         frasi.add("Cracks on roads");
-        frasi.add("Minor damages");
-        frasi.add("Major Damages");
+        frasi.add("Minor Damages");
         frasi.add("General alert");
         frasi.add("emergence situation");
-        */
-        ArrayList<String> frasi = new ArrayList<>();
 
-        ArrayList<Tweet> tweets = TweetFinder.getArrayAsJson(TwitterQuery.queryIntervalloTemporaleConParoleChiavi(10, 04, 2018, 17, 04, 2018, Tag, frasi, "lazio"));
+        int[] dataInizio = {10, 04, 2018};
+        int[] dataFine = {12, 04, 2018};
+
+        boolean onlyTweetGeolocated = true;
+
+        ArrayList<Tweet> tweets = TweetFinder.getArrayAsJson(TwitterQuery.queryIntervalloTemporaleConParoleChiavi(dataInizio[0], dataInizio[1], dataInizio[2], dataFine[0], dataFine[1], dataFine[2], tag, frasi, keyword), onlyTweetGeolocated);
 
         Connection connection = TweetDBManager.getConnectionDB(TweetDBManager.POSTGRESQL_DRIVER, urlServerPostgreSql, dbName, user, password);
 
