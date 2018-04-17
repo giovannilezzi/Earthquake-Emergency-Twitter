@@ -72,26 +72,26 @@ public class TweetDBManager {
         return  true;
     }
 
-    public static boolean createTableDefaultWithJson(Connection connection, String nameTable){
+    public static boolean createTableDefaultWithJson(Connection connection, String nameTable) {
         Statement statement = null;
 
-        String query = PostgreSqlQuery.createTableDefaultWithJson(nameTable);
-
         try {
+            DatabaseMetaData databaseMetaDat = connection.getMetaData();
+            ResultSet table = databaseMetaDat.getTables(null, null, nameTable, null);
+            String query = null;
+            if (table.next() == true) {
+                query = PostgreSqlQuery.deleteTable(nameTable);
+                statement = connection.createStatement();
+                statement.executeUpdate(query);
+            }
+            query = PostgreSqlQuery.createTableDefaultWithJson(nameTable);
             statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try {
             statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-
-        return  true;
+        return true;
     }
 
     public static boolean insertJson(Connection connection, String nameTable, ArrayList<String> jsonToInsert){
