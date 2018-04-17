@@ -7,13 +7,13 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 public class mainTest {
-    private static String urlServerPostgreSql = "127.0.0.1:5433";
+    private static String urlServerPostgreSql = "127.0.0.1:5432";
     private static String dbName = "postgres";
     private static String user = "postgres";
-    private static String password = "Giovanni93";
+    private static String password = "postgres";
 
     public static void main(String [ ] args){
-        initTweetTable();
+        //initTweetTable();
         populateTweets();
         viewTableTweet();
     }
@@ -51,9 +51,7 @@ public class mainTest {
         */
         ArrayList<String> frasi = new ArrayList<>();
 
-        ArrayList<Tweet> tweets = TweetFinder.getArrayAsJson(TwitterQuery.queryIntervalloTemporaleConParoleChiavi(10, 04, 2018, 17, 04, 2018, Tag, frasi, "earthquake"));
-
-
+        ArrayList<Tweet> tweets = TweetFinder.getArrayAsJson(TwitterQuery.queryIntervalloTemporaleConParoleChiavi(10, 04, 2018, 17, 04, 2018, Tag, frasi, "lazio"));
 
         Connection connection = TweetDBManager.getConnectionDB(TweetDBManager.POSTGRESQL_DRIVER, urlServerPostgreSql, dbName, user, password);
 

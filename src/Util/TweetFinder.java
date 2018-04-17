@@ -4,7 +4,10 @@ import Model.Tweet;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.json.DataObjectFactory;
+
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TweetFinder {
 
@@ -30,7 +33,15 @@ public class TweetFinder {
         Twitter twitter = twitterFactory.getInstance();
 
         QueryResult queryResult = null;
-        ArrayList<Tweet> tweetresult = new ArrayList<>();
+        ArrayList<Tweet> tweetResult = new ArrayList<>();
+        executeQuery(tweetResult, twitter, queryResult, query);
+
+        System.out.println("La Ricerca dei Tweet è terminata. Trovati " + tweetResult.size() + " tweets");
+
+        return tweetResult;
+    }
+
+    private static void executeQuery(ArrayList<Tweet> tweetResult, Twitter twitter, QueryResult queryResult, Query query){
         try {
             queryResult = twitter.search(query);
         } catch (TwitterException e) {
@@ -38,14 +49,19 @@ public class TweetFinder {
         }
 
         if(queryResult != null) {
-            for (Status status : queryResult.getTweets()) {
-                System.out.println("Coordianta: " + status.getGeoLocation());
+            List<Status> tweets = queryResult.getTweets();
+            for (Status status : tweets) {
                 String json = DataObjectFactory.getRawJSON(status);
                 Tweet tweet = new Tweet(json);
-                tweetresult.add(tweet);
+                tweetResult.add(tweet);
             }
-        }else System.out.println("La Ricerca non ha trovato alcun Tweet!");
+            System.out.println("Trovati altri " + tweets.size());
 
-        return tweetresult;
+            if(queryResult.hasNext())//there is more pages to load
+            {
+                query = queryResult.nextQuery();
+                executeQuery(tweetResult, twitter, queryResult, query);
+            }else System.out.println("La Ricerca dei Tweet è Terminata!");
+        }else System.out.println("La Ricerca non ha trovato alcun Tweet!");
     }
 }
