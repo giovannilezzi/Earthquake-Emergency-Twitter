@@ -5,16 +5,22 @@ import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.json.DataObjectFactory;
 
-import javax.xml.bind.SchemaOutputResolver;
+//import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TweetFinder {
 
+    /* vecchio token
     private final static String consumerKey = "j5g7cn5rC4FVtrKicKcAL2ZvE";
     private final static String consumerSecret = "o7lNQsu9lpzKBB36ATIReTiHbAdocYb72LrgwAcB5l6Kz7X47M";
     private final static String accessToken = "833923929366478852-GFUr6eWpcL8sQElBn3w2X4lLIhdHyCb";
     private final static String accessTokenSecret = "dE5qghxbZbD77NRC7gaSxpI6MdMEWBXjvg31WFHkVXb8m";
+    */
+    private final static String consumerKey = "NNmXZXyrpjfebfzMyEtnBAR0y";
+    private final static String consumerSecret = "szhQw0Sl1BtvRZP6fURx3WPIG84mgcpKvZFzN99qMD41xLWppt";
+    private final static String accessToken = "1007203901198749700-EmwKBfDbdyjN36yUKBX5q7RQT1WxUS";
+    private final static String accessTokenSecret = "OIvOcNO2X2mvNrdsMoEPlGlqARru0nfscAWqjXtZ0cyaO";
 
     private final static String[] indicatorTweer = {"|", "?"};
     private final static String progressSymbol = ".";
